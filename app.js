@@ -4,6 +4,20 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/test');
+
+var Cat = mongoose.model('Cat',{name:String});
+var kitty = new Cat({name: 'hellokitty'});
+kitty.save(function(err){
+  if(err){
+    console.log(err);
+  }else{
+    console.log('保存成功');
+  }
+})
+
+
 
 var index = require('./routes/index');
 
