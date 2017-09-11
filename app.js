@@ -7,17 +7,48 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/test');
 
-var Cat = mongoose.model('Cat',{name:String});
-var kitty = new Cat({name: 'hellokitty'});
-kitty.save(function(err){
+// var Cat = mongoose.model('Cat',{name:String});
+// var kitty = new Cat({name: 'hellokitty'});
+// kitty.save(function(err){
+//   if(err){
+//     console.log(err);
+//   }else{
+//     console.log('保存成功');
+//   }
+// })
+var Schema = mongoose.Schema;
+var Catschema = new Schema({name:String});
+var Cat = mongoose.model('cats',Catschema);
+
+// Cat.insertMany([{name:'cat1'},{name:'cat2'}],function(err,docs){
+//   if(err){
+//     console.log(err);
+//     return;
+//   }
+//   console.log(docs);
+// });
+Cat.update({name:'cat1'},{$set:{name:'小猫'}},function(err,raw){
   if(err){
     console.log(err);
+    return;
   }else{
-    console.log('保存成功');
+    console.log(raw);
+  }
+})
+Cat.remove({name:'小猫'},function(err){
+  if(err){
+    console.log(err);
   }
 })
 
-
+Cat.findOne({name:/cat/},function(err,result){
+  if(err){
+    console.log(err);
+    return;
+  }else{
+    console.log(result);
+  }
+})
 
 var index = require('./routes/index');
 
